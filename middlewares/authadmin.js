@@ -11,7 +11,6 @@ const authadmin = async (req,res,next)=>{
         const token_decode = Jwt.verify(atoken,process.env.JWT_SECRET)
         
         // check whether the passowrd email is correct or not
-
         if(token_decode!== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD){
             return res.json({success:false,message:"Invalid Login Again"})
         }
