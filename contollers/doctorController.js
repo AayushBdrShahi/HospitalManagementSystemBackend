@@ -13,7 +13,7 @@ const loginDoctor = async(req,res)=>{
         const {email,password} = req.body
         const doctor = await doctorModel.findOne({email})
         if(!doctor){
-            return res.json({success:false,message:"Invalid Credintals"})
+            return res.json({success:false,message:"Invalid Email and Password"})
         }
 
         const isMatch = await bcrypt.compare(password,doctor.password)
@@ -22,7 +22,7 @@ const loginDoctor = async(req,res)=>{
             const token = Jwt.sign({id:doctor._id},process.env.JWT_SECRET)
             res.json({success:true,token})
         }else{
-            res.json({success:false,message:"Invalid Credintals"})
+            res.json({success:false,message:"Invalid Email and Password"})
         }
 
     }
