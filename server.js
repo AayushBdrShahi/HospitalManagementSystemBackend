@@ -16,15 +16,13 @@ connectCloudinary()
 // middlewares
 app.use(cors())
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
+
 
 //Routes
 app.use ('/api/admin',adminRouter);
 app.use('/api/user',userRouter);
 app.use('/api/doctor',doctorRouter)
-
-app.get('/',(req,res)=>{
-    res.send("It is working");
-})
 
 //api endpoints
 app.get('/',(req,res) =>{

@@ -26,6 +26,7 @@ const loginAdmin = async (req, res) => {
 };
 export { loginAdmin };
 
+
 //API for addindg doctor:
 
 const addDoctor = async (req, res) => {
@@ -93,6 +94,13 @@ const addDoctor = async (req, res) => {
       });
       const imageUrl = imageUpload.secure_url;
 
+      let parsedAddress;
+try {
+  parsedAddress = typeof address === "string" ? JSON.parse(address) : address;
+} catch (error) {
+  return res.status(400).json({ success: false, message: "Invalid Address Format" });
+}
+
       const doctorData = {
         name,
         email,
@@ -103,7 +111,7 @@ const addDoctor = async (req, res) => {
         experience,
         about,
         fees,
-        address: JSON.parse(address),
+        address: parsedAddress,
         date: Date.now(),
       };
   
@@ -120,4 +128,21 @@ const addDoctor = async (req, res) => {
     }
   };
   
-export { addDoctor };
+// API to get all doctor list from db for admin panel 
+
+const allDoctors = async(req,res) =>{
+  try{
+
+    const doctors = await doctorModel.find({}).select('-password')
+    res.json({success:true,doctors})
+
+  }catch(error){
+    console.log(error);
+    res.json({ succes: false, messgae: error.messgae });
+    
+  }
+}
+
+export { addDoctor, allDoctors };
+
+
